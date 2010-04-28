@@ -1,0 +1,37 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!-- 
+ Copyright 2010 Google Inc.
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS-IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!--
+  Main ui template for our plugin. 
+-->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" 
+    xmlns:g="urn:import:com.google.gwt.user.client.ui"
+    xmlns:plugin="urn:import:com.google.livingstories.plugins.wordpress.livingstorypropertymanager.client.ui">
+  <ui:style>
+    .inline {
+      display: inline;
+    }
+    .typeSpecificPanel {
+      margin-left: 20px;
+    }
+  </ui:style>
+  <g:HTMLPanel>
+    <label for="lsp_importance">Priority:</label>
+    <g:SimplePanel ui:field="importanceDropdownPanel" styleName="{style.inline}"/><br/>
+    <plugin:LocationInput ui:field="locationInput"/>
+  </g:HTMLPanel>
+</ui:UiBinder> 
