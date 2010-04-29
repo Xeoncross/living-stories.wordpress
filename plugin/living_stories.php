@@ -41,7 +41,7 @@ add_action('save_post', 'lsp_save_meta');
 
 /* Adds a script tag referencing the GWT code used by this plugin */
 function lsp_add_gwt() {
-  wp_enqueue_script('contentmanager', WP_PLUGIN_URL . '/living_stories/LivingStoryPropertyManagerPlugin.nocache.js');
+  wp_enqueue_script('contentmanager', WP_PLUGIN_URL . '/living-story-plugin/LivingStoryPropertyManagerPlugin.nocache.js');
 }
 
 /* Adds a custom section to the "advanced" Post and Page edit screens */
