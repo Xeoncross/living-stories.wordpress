@@ -6,7 +6,7 @@
 ?>
 
 <?php
-  define("POSTS_PER_PAGE", 2);
+  define("POSTS_PER_PAGE", 10);
 
   function create_query($params, $page = null) {
     $args = array();
