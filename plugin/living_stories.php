@@ -4,34 +4,35 @@ Plugin Name: Living Stories Custom Metadata
 */
 
 register_activation_hook(__FILE__, 'install');
+
 function install() {
   require_once(dirname(__FILE__) . '/../magic-fields/RCCWP_CustomWritePanel.php');
 
-	// Create default write pages
-	$existing_write_panels = array();
-	foreach (RCCWP_CustomWritePanel::GetCustomWritePanels() as $panel) {
-		array_push($existing_write_panels, $panel->name);
-	}
-	$panels_dir_name = dirname(__FILE__) . '/panels/';
-	$panels_dir = opendir($panels_dir_name);
-	$panels = array();
-	while (false !== ($panel_file = readdir($panels_dir))) {
-		$panel_name = basename($panel_file, ".pnl");
-		if (!is_dir($panel_file) && $panel_name && $panel_name != $panel_file && !in_array($panel_name, $existing_write_panels)) {
-  		// If this file isn't a directory, ends with .pnl, and isn't already an existing panel, create and store it for import.
-//		  $panel_id = RCCWP_CustomWritePanel::Create($panel_name, '', array(), array(), 1, "post", false);
+  // Create default write pages
+  $existing_write_panels = array();
+  foreach (RCCWP_CustomWritePanel::GetCustomWritePanels() as $panel) {
+    array_push($existing_write_panels, $panel->name);
+  }
+  $panels_dir_name = dirname(__FILE__) . '/panels/';
+  $panels_dir = opendir($panels_dir_name);
+  $panels = array();
+  while (false !== ($panel_file = readdir($panels_dir))) {
+    $panel_name = basename($panel_file, ".pnl");
+    if (!is_dir($panel_file) && $panel_name && $panel_name != $panel_file && !in_array($panel_name, $existing_write_panels)) {
+      // If this file isn't a directory, ends with .pnl, and isn't already an existing panel, create and store it for import.
+      // $panel_id = RCCWP_CustomWritePanel::Create($panel_name, '', array(), array(), 1, "post", false);
       RCCWP_CustomWritePanel::Import($panels_dir_name . $panel_file);
-		  $panels[$panel_name] = $panel_file;
-		}
-	}
-	
-	foreach ($panels as $panel_name => $panel_file) {
-  	RCCWP_CustomWritePanel::Import($panels_dir_name . $panel_file, $panel_name, true);
+      $panels[$panel_name] = $panel_file;
+    }
+  }
+
+  foreach ($panels as $panel_name => $panel_file) {
+    RCCWP_CustomWritePanel::Import($panels_dir_name . $panel_file, $panel_name, true);
   }
 }
 
 /* Use the admin_init action to inject our GWT code */
-add_action('admin_init', 'lsp_add_gwt');
+add_action('admin_init', 'lsp_add_scripts');
 
 /* Use the admin_menu action to define the custom boxes */
 add_action('admin_menu', 'lsp_add_custom_meta');
@@ -40,8 +41,9 @@ add_action('admin_menu', 'lsp_add_custom_meta');
 add_action('save_post', 'lsp_save_meta');
 
 /* Adds a script tag referencing the GWT code used by this plugin */
-function lsp_add_gwt() {
+function lsp_add_scripts() {
   wp_enqueue_script('contentmanager', WP_PLUGIN_URL . '/living-story-plugin/LivingStoryPropertyManagerPlugin.nocache.js');
+  wp_enqueue_script('living_story_plugin', WP_PLUGIN_URL . '/living-story-plugin/living_stories.js', array('jquery'));
 }
 
 /* Adds a custom section to the "advanced" Post and Page edit screens */

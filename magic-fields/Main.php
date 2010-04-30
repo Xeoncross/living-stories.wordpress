@@ -114,9 +114,6 @@ if (is_admin()) {
 		
 		add_action('admin_head', 'mf_admin_style');
 
-                add_action('admin_head', 'swap_excerpt_javascript');
-
-
 		// -- Hook all functions related to saving posts in order to save custom fields values
 		require_once ('RCCWP_Post.php');	
 		add_action('save_post', array('RCCWP_Post', 'SaveCustomFields'));
@@ -279,25 +276,3 @@ function valid_mime($mime,$file_type){
 	return false;
 }
 
-function swap_excerpt_javascript() {
-  echo
-<<<EOF
-  <script type="text/javascript">
-      var oldOnload = window.onload;
-
-      window.onload = function() {
-        if (oldOnload) {
-          oldOnload();
-        }
-
-        var postexcerpt = document.getElementById('postexcerpt');
-        var postdiv = document.getElementById('postdivrich');
-        if (postexcerpt && postdiv) {
-          postexcerpt.parentNode.removeChild(postexcerpt);
-          postdiv.parentNode.insertBefore(postexcerpt, postdiv);
-          tme_convertExcerpt();
-        }
-      };
-  </script>
-EOF;
-}
