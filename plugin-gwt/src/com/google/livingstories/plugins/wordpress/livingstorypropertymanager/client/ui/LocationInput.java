@@ -18,7 +18,6 @@ package com.google.livingstories.plugins.wordpress.livingstorypropertymanager.cl
 
 import com.google.gwt.ajaxloader.client.AjaxLoader;
 import com.google.gwt.ajaxloader.client.AjaxLoader.AjaxLoaderOptions;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -47,7 +46,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.livingstories.plugins.wordpress.livingstorypropertymanager.client.Location;
-import com.google.livingstories.plugins.wordpress.livingstorypropertymanager.client.i18n.ClientConstants;
 import com.google.livingstories.plugins.wordpress.livingstorypropertymanager.client.util.Resources;
 
 /**
@@ -56,12 +54,11 @@ import com.google.livingstories.plugins.wordpress.livingstorypropertymanager.cli
  * TODO: convert to UiBinder
  */
 public class LocationInput extends Composite {
-  public static ClientConstants properties = GWT.create(ClientConstants.class);
-  
   private static final int MAP_HEIGHT = 256;
   private static final int MAP_WIDTH = 256;
   private static final int MAP_ZOOM = 10;
-    
+  
+  private String mapsKey;
   private boolean mapsKeyExists;
   private boolean mapsApiReady = false;
   
@@ -81,13 +78,13 @@ public class LocationInput extends Composite {
   private Hidden latitudeValue;
   private Hidden longitudeValue;
   
-  public LocationInput() {
-    this(null);
+  public LocationInput(String mapsKey) {
+    this(null, mapsKey);
   }
   
-  public LocationInput(Location location) {
+  public LocationInput(Location location, String mapsKey) {
     super();
-    String mapsKey = properties.mapsKey();
+    this.mapsKey = mapsKey;
     mapsKeyExists = mapsKey != null && !mapsKey.isEmpty();
     initWidget(createLocationPanel(location));
   }
@@ -160,7 +157,7 @@ public class LocationInput extends Composite {
       
       // show a map based on geocoded or manually-inputted lat-long combination
       AjaxLoaderOptions options = AjaxLoaderOptions.newInstance();
-      options.setOtherParms(properties.mapsKey() + "&sensor=false");
+      options.setOtherParms(mapsKey + "&sensor=false");
       AjaxLoader.loadApi("maps", "2", new Runnable() {
         @Override
         public void run() {

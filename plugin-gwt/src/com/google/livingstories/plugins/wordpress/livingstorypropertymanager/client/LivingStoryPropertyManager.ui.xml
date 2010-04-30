@@ -19,8 +19,7 @@
   Main ui template for our plugin. 
 -->
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" 
-    xmlns:g="urn:import:com.google.gwt.user.client.ui"
-    xmlns:plugin="urn:import:com.google.livingstories.plugins.wordpress.livingstorypropertymanager.client.ui">
+    xmlns:g="urn:import:com.google.gwt.user.client.ui">
   <ui:style>
     .inline {
       display: inline;
@@ -32,6 +31,6 @@
   <g:HTMLPanel>
     <label for="lsp_importance">Priority:</label>
     <g:SimplePanel ui:field="importanceDropdownPanel" styleName="{style.inline}"/><br/>
-    <plugin:LocationInput ui:field="locationInput"/>
+    <g:SimplePanel ui:field="locationInput"/>
   </g:HTMLPanel>
 </ui:UiBinder> 

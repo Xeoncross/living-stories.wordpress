@@ -24,6 +24,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.livingstories.plugins.wordpress.livingstorypropertymanager.client.i18n.ClientConstants;
 import com.google.livingstories.plugins.wordpress.livingstorypropertymanager.client.ui.LocationInput;
 import com.google.livingstories.plugins.wordpress.livingstorypropertymanager.client.util.ContentItemData;
 
@@ -43,6 +44,8 @@ import com.google.livingstories.plugins.wordpress.livingstorypropertymanager.cli
  * the business logic that determines how the controls interact.
  */
 public class LivingStoryPropertyManager extends Composite {
+  public static ClientConstants properties = GWT.create(ClientConstants.class);
+
   private static LivingStoryPropertyManagerUiBinder uiBinder
       = GWT.create(LivingStoryPropertyManagerUiBinder.class);
   interface LivingStoryPropertyManagerUiBinder
@@ -52,8 +55,7 @@ public class LivingStoryPropertyManager extends Composite {
   /* Common fields */
   @UiField SimplePanel importanceDropdownPanel;
   
-  @UiField(provided=true)
-  final LocationInput locationInput;
+  @UiField SimplePanel locationInput;
   
   /* Non-UiBinder Form controls */
   private EnumDropdown<Importance> importanceDropdown
@@ -65,7 +67,10 @@ public class LivingStoryPropertyManager extends Composite {
   
   public LivingStoryPropertyManager() {
     initMetadataValues();
-    this.locationInput = new LocationInput(location);
+    String mapsKey = properties.mapsKey();
+    if (mapsKey != null && !mapsKey.isEmpty()) {
+      locationInput.add(new LocationInput(location, mapsKey));
+    }
     
     initWidget(uiBinder.createAndBindUi(this));
     createImportanceDropdown();
